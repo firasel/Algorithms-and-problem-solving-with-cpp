@@ -3,17 +3,21 @@ using namespace std;
 
 int main()
 {
-  int n = 4;
-  vector<int> adj_list[n];
-
-  adj_list[0] = {1};
-  adj_list[1] = {0, 2, 3};
-  adj_list[2] = {1, 3};
-  adj_list[3] = {1, 2};
+  int n, m;
+  cin >> n >> m;
+  vector<vector<int>> arr(n);
+  for (int i = 0; i < m; i++)
+  {
+    int u, v;
+    cin >> u >> v;
+    arr[u].push_back(v);
+    arr[v].push_back(u);
+  }
 
   for (int i = 0; i < n; i++)
   {
-    for (auto num : adj_list[i])
+    cout << i << " -> ";
+    for (auto num : arr[i])
     {
       cout << num << " ";
     }
