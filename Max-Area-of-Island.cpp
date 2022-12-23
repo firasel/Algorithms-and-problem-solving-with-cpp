@@ -4,18 +4,18 @@ using namespace std;
 class Solution
 {
 public:
-  void BFS(vector<vector<int>> &grid, int r, int c, int n, int m, int &count)
+  void DFS(vector<vector<int>> &grid, int r, int c, int n, int m, int &count)
   {
     grid[r][c] = 0;
     count++;
     if (r - 1 >= 0 && grid[r - 1][c] == 1)
-      BFS(grid, r - 1, c, n, m, count);
+      DFS(grid, r - 1, c, n, m, count);
     if (r + 1 < n && grid[r + 1][c] == 1)
-      BFS(grid, r + 1, c, n, m, count);
+      DFS(grid, r + 1, c, n, m, count);
     if (c - 1 >= 0 && grid[r][c - 1] == 1)
-      BFS(grid, r, c - 1, n, m, count);
+      DFS(grid, r, c - 1, n, m, count);
     if (c + 1 < m && grid[r][c + 1] == 1)
-      BFS(grid, r, c + 1, n, m, count);
+      DFS(grid, r, c + 1, n, m, count);
   }
 
   int maxAreaOfIsland(vector<vector<int>> &grid)
@@ -28,7 +28,7 @@ public:
         if (grid[i][j] == 1)
         {
           count = 0;
-          BFS(grid, i, j, n, m, count);
+          DFS(grid, i, j, n, m, count);
           if (count > ans)
             ans = count;
         }

@@ -4,17 +4,17 @@ using namespace std;
 class Solution
 {
 public:
-  void BFS(vector<vector<char>> &grid, int r, int c, int n, int m)
+  void DFS(vector<vector<char>> &grid, int r, int c, int n, int m)
   {
     grid[r][c] = '0';
     if (r - 1 >= 0 && grid[r - 1][c] == '1')
-      BFS(grid, r - 1, c, n, m);
+      DFS(grid, r - 1, c, n, m);
     if (r + 1 < n && grid[r + 1][c] == '1')
-      BFS(grid, r + 1, c, n, m);
+      DFS(grid, r + 1, c, n, m);
     if (c - 1 >= 0 && grid[r][c - 1] == '1')
-      BFS(grid, r, c - 1, n, m);
+      DFS(grid, r, c - 1, n, m);
     if (c + 1 < m && grid[r][c + 1] == '1')
-      BFS(grid, r, c + 1, n, m);
+      DFS(grid, r, c + 1, n, m);
   }
 
   int numIslands(vector<vector<char>> &grid)
@@ -27,7 +27,7 @@ public:
         if (grid[i][j] == '1')
         {
           count++;
-          BFS(grid, i, j, n, m);
+          DFS(grid, i, j, n, m);
         }
       }
     }
