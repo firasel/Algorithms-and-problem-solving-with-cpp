@@ -1,6 +1,27 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+bool DFS(unordered_map<int, vector<int>> &graph, vector<bool> &visited, vector<int> &parent, int s, int p, int &startNode, int &endNode)
+{
+  visited[s] = true;
+  parent[s] = p;
+  for (int v : graph[s])
+  {
+    if (!visited[v])
+    {
+      if (DFS(graph, visited, parent, v, s, startNode, endNode))
+        return true;
+    }
+    else if (parent[s] != v)
+    {
+      startNode = v;
+      endNode = s;
+      return true;
+    }
+  }
+  return false;
+}
+
 bool BFS(unordered_map<int, vector<int>> &graph, vector<bool> &visited, vector<int> &parent, int s, int p, int &startNode, int &endNode)
 {
   visited[s] = true;
@@ -23,15 +44,6 @@ bool BFS(unordered_map<int, vector<int>> &graph, vector<bool> &visited, vector<i
       {
         startNode = v;
         endNode = u;
-        cout << "Cycle: ";
-        cout << v << " ";
-        int curr = u;
-        while (curr != v && curr != 0)
-        {
-          cout << curr << " ";
-          curr = parent[curr];
-        }
-        cout << v << endl;
         return true;
       }
     }
@@ -67,21 +79,19 @@ int main()
       break;
     }
   }
-  cout << "F: " << isCycle << " " << startNode << " " << endNode << endl;
+
   if (isCycle)
   {
+    vector<bool> visited(n + 1, false);
+    vector<int> parent(n + 1, 0);
+    DFS(graph, visited, parent, endNode, -1, startNode, endNode);
     int currNode = endNode;
     vector<int> ans;
-    for (auto num : parent)
-      cout << num << " ";
-    cout << endl;
     ans.push_back(endNode);
-    while (currNode != startNode && currNode > 0)
+    while (currNode != startNode)
     {
-      cout << currNode << " ";
       ans.push_back(parent[currNode]);
       currNode = parent[currNode];
-      cout << currNode << endl;
     }
     ans.push_back(endNode);
     cout << ans.size() << endl;
@@ -96,10 +106,6 @@ int main()
 }
 
 /*
-1 --- 2 --- 5 --- 6
-      |     |
-      |     |
-      3--- 4
 
 6 6
 1 2
@@ -109,17 +115,11 @@ int main()
 4 5
 5 6
 
-1 --- 2 --- 5 --- 6
-      |     |
-      |     |
-      3     4
-
 6 5
 1 2
 2 3
 2 5
 4 5
 5 6
-
 
 */
